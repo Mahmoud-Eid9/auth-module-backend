@@ -31,11 +31,13 @@ export class AuthService {
     try {
       payload = await this.refreshJwtService.verifyAsync(refreshToken);
     } catch (err) {
+      this.logger.error(`User tried to refresh with an Invalid Token`);
       throw new UnauthorizedException('Bad refresh token');
     }
     const user = await this.userService.getUserById(payload.sub);
     console.log(user.jwtVersion + "  " + payload.version);
     if(user.jwtVersion != payload.version){
+      this.logger.error(`User tried to refresh with an Expired Token`);
       throw new UnauthorizedException('Expired Token')
     }
     user.jwtVersion++;

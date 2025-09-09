@@ -36,6 +36,7 @@ export class AuthController {
     const refreshToken = req.cookies['refreshToken'];
     this.logger.log(`user hits the route refersh with the refresh toknen (${refreshToken})`);
     if (!refreshToken) {
+      this.logger.error(`User tried to refresh with no refresh token provided`)
       throw new UnauthorizedException('No refresh token found');
     }
 
