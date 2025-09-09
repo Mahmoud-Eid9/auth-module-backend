@@ -4,8 +4,8 @@ import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Response, Request } from 'express';
 import { LoggerSerivce } from 'src/logger/logger.service';
-import { JwtAuthGuard } from 'src/guards/auth.guard';
 import type { AuthRequest } from 'src/interface/auth-request';
+import { JwtAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -24,8 +24,9 @@ export class AuthController {
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
       secure: false,//in order to work on localhost
-      sameSite: 'strict',
+      sameSite: 'lax',
       path: '/auth/refresh',
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     return { accessToken };
@@ -44,8 +45,9 @@ export class AuthController {
     res.cookie('refreshToken', newRefreshToken, {
       httpOnly: true,
       secure: false, //in order to work on localhost
-      sameSite: 'strict',
+      sameSite: 'lax',
       path: '/auth/refresh',
+      maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
     return { newAccessToken };
@@ -53,7 +55,14 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('logout')
-  async logout(@Req() req: AuthRequest){
+  async logout(@Req() req: AuthRequest, @Res({passthrough: true}) res: Response){
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      path: '/auth/refresh',
+      maxAge: 7 * 24 * 60 * 60 * 1000
+    });
     this.logger.log(`user with id ${req.user.sub} logged out`)
     return this.authService.logout(req.user);
   }

@@ -28,7 +28,7 @@ export class UserService {
 
     async getUserById(id: string): Promise<UserDocument>{
         const user = await this.userModel.findById(id);
-        if(user == null){
+        if(user === null){
             this.logger.error(`a User does not exist with the id: ${id}`)
             throw new UnauthorizedException('User does not exist');
         }
@@ -39,7 +39,7 @@ export class UserService {
 
     async verifyUser(verifyUserDto: VerifyUserDto): Promise<UserDocument>{
         const user: UserDocument | null = await this.userModel.findOne({ email: verifyUserDto.email }).exec();
-        if(user == null){
+        if(user === null){
             this.logger.log(`Invalid Email and password provided with email ${verifyUserDto.email}`)
             throw new UnauthorizedException("Invalid Email and password")
         } 

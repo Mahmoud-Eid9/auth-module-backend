@@ -30,9 +30,9 @@ The project consists of the following modules
 - `POST /auth/register`: a post request that expects (name, email, password) in the body
 - `POST /auth/login`: a post request that expects (email, passowrd) in the body
 - `GET /auth/refresh`:a get request that creates a new accessToken and refreshToken and invalidates the previous refreshToken
+- `GET /auth/logout`: a get request that invalidates the current refreshToken of the user by updating the version of the token rotation and deleting the cookie
 
 ## Authorized Routes (AccessToken)
-- `GET /auth/logout`: a get request that invalidates the current refreshToken of the user by updating the version of the token rotation
 - `GET /`: a get request that sends a hello message alongside the users name
 
 
