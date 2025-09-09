@@ -8,6 +8,9 @@ Then to run the project just run this comman
 
 You can find logs inside `/logs/app.log`
 
+## .env Inlcuded
+Normally it shouldn't, but in order for you to spin up the project right away I included it
+
 
 # Project Structure
 nest depends on modules, so following what nest encourages us to do.
