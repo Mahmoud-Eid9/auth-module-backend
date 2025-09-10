@@ -2,7 +2,7 @@ import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { JwtAuthGuard } from './guards/auth.guard';
 import type { Request } from 'express';
-import type { AuthRequest } from './interface/auth-request';
+import type { AuthRequest } from './types/auth-request';
 import { LoggerSerivce } from './logger/logger.service';
 
 @Controller()

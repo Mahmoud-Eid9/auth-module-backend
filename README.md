@@ -85,9 +85,11 @@ Pros:
 
 # what can be improved in my apprach
 
-- making a separate table for storing token status and add `device_id` data
-  - `device_id` can be an identifier that is saved the browser
+- storing several tokens (version, device_id) per user to allow logging-in from different devices
+  - `device_id` can be an identifier that is saved in the browser
   - this allows a single user to log-in with multiple devices
-- Short lived `refreshToken`
-  - in a long lived `refreshToken` approach, If the user stays idle a stolen `refreshToken` can be used to generate `accessTokens`
-  - a short lived token is safer when stolen
+- Idle user Risk
+  - the risk remaining in our appreach is a stolen refresh token from an idle user
+  - reuse detection: we store the latest issued token, when a mismatch happens we invalidate all refresh tokens and force a new log-in
+- CSRF tokens
+  - protecting froms

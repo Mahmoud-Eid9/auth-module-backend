@@ -3,6 +3,7 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
+    "typeRoots": ["./node_modules/@types", "./src/types"],
     "esModuleInterop": true,
     "isolatedModules": true,
     "declaration": true,

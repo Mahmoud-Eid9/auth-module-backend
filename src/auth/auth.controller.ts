@@ -1,20 +1,24 @@
-import { Controller, Post, Body, ValidationPipe, Res, Req, UnauthorizedException, Get, UseGuards} from '@nestjs/common';
+import { Controller, Post, Body, ValidationPipe, Res, Req, UnauthorizedException, Get, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
 import { LoginDto } from './dto/login.dto';
 import type { Response, Request } from 'express';
 import { LoggerSerivce } from 'src/logger/logger.service';
-import type { AuthRequest } from 'src/interface/auth-request';
 import { JwtAuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly logger: LoggerSerivce) {}
+  constructor(private readonly authService: AuthService, private readonly logger: LoggerSerivce) { }
 
   @Post('register')
-  register(@Body(ValidationPipe) registerDto: RegisterDto): Promise<any> { 
+  register(@Body(ValidationPipe) registerDto: RegisterDto): Promise<any> {
     this.logger.log(`user hits regisers with the email: ${registerDto.email}`)
     return this.authService.register(registerDto);
+  }
+
+  @Get('csrf-token')
+  getCsrfToken(@Req() req: Request) {
+    return { csrfToken: req.csrfToken() };
   }
 
   @Post('login')
@@ -55,7 +59,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get('logout')
-  async logout(@Req() req: AuthRequest, @Res({passthrough: true}) res: Response){
+  async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     res.clearCookie('refreshToken', {
       httpOnly: true,
       secure: false,
@@ -63,6 +67,9 @@ export class AuthController {
       path: '/auth/refresh',
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
+    if (!req.user) {
+      throw new UnauthorizedException('User not found');
+    }
     this.logger.log(`user with id ${req.user.sub} logged out`)
     return this.authService.logout(req.user);
   }
