@@ -6,6 +6,7 @@ import type { Response, Request } from 'express';
 import { LoggerSerivce } from 'src/logger/logger.service';
 import { JwtAuthGuard } from 'src/guards/auth.guard';
 
+
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService, private readonly logger: LoggerSerivce) { }
@@ -16,13 +17,13 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
-  @Get('csrf-token')
   getCsrfToken(@Req() req: Request) {
     return { csrfToken: req.csrfToken() };
   }
 
   @Post('login')
   async logIn(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
+    this.logger.log(`user tries logging in with email: ${loginDto.email}`);
     const { accessToken, refreshToken } = await this.authService.logIn(loginDto);
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
@@ -38,7 +39,7 @@ export class AuthController {
   @Get('refresh')
   async refresh(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const refreshToken = req.cookies['refreshToken'];
-    this.logger.log(`user (${req.user?.sub}) hits the route /refresh`);
+    this.logger.log(`user hits the route refersh with the refresh toknen (${refreshToken})`);
     if (!refreshToken) {
       this.logger.error(`User tried to refresh with no refresh token provided`)
       throw new UnauthorizedException('No refresh token found');
