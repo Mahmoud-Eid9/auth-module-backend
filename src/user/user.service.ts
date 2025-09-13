@@ -40,7 +40,7 @@ export class UserService {
     async verifyUser(verifyUserDto: VerifyUserDto): Promise<UserDocument>{
         const user: UserDocument | null = await this.userModel.findOne({ email: verifyUserDto.email }).exec();
         if(user === null){
-            this.logger.log(`Invalid Email and password provided with email ${verifyUserDto.email}`)
+            this.logger.log(`Invalid Email and password provided with the email attempted ${verifyUserDto.email}`)
             throw new UnauthorizedException("Invalid Email and password")
         } 
         const comparison = await bcrypt.compare(verifyUserDto.password, user.password);
