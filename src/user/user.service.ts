@@ -45,6 +45,7 @@ export class UserService {
         } 
         const comparison = await bcrypt.compare(verifyUserDto.password, user.password);
         if (!comparison) throw new UnauthorizedException("Invalid Email and password");
+        this.logger.log(`user logging in with email: ${verifyUserDto.email}`);
         return user;
     }
 }

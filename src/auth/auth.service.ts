@@ -3,8 +3,7 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { UserService } from 'src/user/user.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { JwtService } from '@nestjs/jwt';
-import { RefreshDto } from './dto/refresh.dto';
+import { JwtService } from '@nestjs/jwt';;
 import { LoggerSerivce } from 'src/logger/logger.service';
 
 @Injectable()
@@ -72,7 +71,7 @@ export class AuthService {
   }
 
   async generateRefreshToken(id: string, version: number) {
-    this.logger.log(`refresh token issued for user ${id} with version ${version}`)
+    this.logger.log(`refresh token issued for user ${id}`)
     return await this.refreshJwtService.signAsync({ sub: id, version });
   }
 
