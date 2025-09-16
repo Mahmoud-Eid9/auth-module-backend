@@ -23,8 +23,8 @@ The project consists of the following modules
 
 ## for each module you will find:
 - module: the configs of the module
-- controller: where routes are configured, it is a facade design pattern because it is really simple functions that really recieves request and hand them to the service
-- serivce: service is where actual logic is coded
+- controller: where routes are configured
+- serivce: where actual logic is
 
 
 # Routes
