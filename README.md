@@ -1,4 +1,4 @@
-# Setup
+# Spin up the server
 
 Clone the repo then run this command in the root folder
 ```npm intall```
@@ -27,10 +27,10 @@ The project consists of the following modules
 
 - `POST /auth/register`:
   - creates a new user in the database
-  - Expected Body: ```json { "name": "test", "email": "test@test.com", "password": "test" }```
+  - Expected Body: ```<pre>json { "name": "test", "email": "test@test.com", "password": "test" }</pre>```
 - `POST /auth/login`:
   - verifies the user by comparing `email` and `password hashes` with `DB`
-  - Expected Body: ```json { "email": "test@test.com", "password": "test" }```
+  - Expected Body: ```<pre>json { "email": "test@test.com", "password": "test" }</pre>```
 - `GET /auth/refresh`:
   - issues new `accessToken` and `refreshToken` and invalidates all previous tokens
 
