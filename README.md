@@ -1,10 +1,14 @@
 # Spin up the server
 
 Clone the repo then run this command in the root folder
-```npm intall```
+```bash
+npm intall
+```
 
 Then to run the project just run this comman
-```npm run start```
+```bash
+npm run start
+```
 
 You can find logs inside `/logs/app.log`
 
