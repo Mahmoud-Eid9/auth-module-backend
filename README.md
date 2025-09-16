@@ -49,7 +49,7 @@ The project consists of the following modules
 - `GET /`:
   - sends a hello message alongside the users name
 - `GET /auth/logout`:
-  - invalidates the all refreshToken of the user
+  - invalidates all refreshTokens of the user
   - updates the version of the token and deletes the cookie
 
 
