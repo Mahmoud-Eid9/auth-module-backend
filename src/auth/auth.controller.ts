@@ -17,10 +17,6 @@ export class AuthController {
     return this.authService.register(registerDto);
   }
 
-  getCsrfToken(@Req() req: Request) {
-    return { csrfToken: req.csrfToken() };
-  }
-
   @Post('login')
   async logIn(@Body() loginDto: LoginDto, @Res({ passthrough: true }) res: Response): Promise<any> {
     this.logger.log(`user tries logging in with email: ${loginDto.email}`);

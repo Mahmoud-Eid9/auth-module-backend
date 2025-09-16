@@ -11,7 +11,7 @@ export class AppController {
   @UseGuards(JwtAuthGuard)
   @Get()
   getHello(@Req() req: Request): string {
-    this.logger.log(`${req.user} calls getHello`);
+    this.logger.log(`${req.user} called getHello`);
     return this.appService.getHello(req.user);
   }
 }
