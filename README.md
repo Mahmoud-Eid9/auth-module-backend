@@ -75,7 +75,6 @@ So, we generate an `accessToken` with a short life then it expires and the `refr
 pros:
 - a stolen `accessToken` has a short life to be used
 - `refreshToken` is only sent when refreshing
-- still fairly simple
 
 cons:
 - a stolen `refreshToken` has no way to be invalidated which means a stolen one is valid forever
@@ -88,7 +87,7 @@ In order to make this even more powerfull we generate a new `refreshToken` on `/
 
 Pros:
 - `refreshToken` can be invalidated
-- A stolen `refreshToken` will eventually be invalidated
+- A Log-out from the user invalidates all refresh tokens
 
 Cons:
 - A user now can only stay logged-in in a single device
@@ -101,9 +100,11 @@ On `/auth/refresh` the token's version is compared with the version stored in `D
 
 Pros:
 - Less data to store in the database
+- the `refreshTokens` are only stored in `HttpOnly` cookies in the browser
 
 Cons:
 - A user can still only stay logged-in in a single device
+- a stolen `refreshToken` from an idle user can still be used as long as the user doesn't take action to invalidate the chain of stolen tokens
 
 
 # what can be improved in my apprach
@@ -113,5 +114,7 @@ Cons:
   - this allows a single user to log-in with multiple devices
 - Idle user Risk
   - the risk remaining in our appreach is a stolen refresh token from an idle user
-  - we can solve that by validating the token with `device_id`
-
+    - we can solve that by validating the token with `device_id` alongside the version
+  - the `device_id` can an `IP` address or an identifier saved in the users browser
+      - in the modern age of the internet `IP` addresses change all the time, Through `VPN`, changing network or a browser that has a built in `VPN`
+      - although it can be secure to use it, But it will harm the user experinece for those who changes their `IP` frequently
